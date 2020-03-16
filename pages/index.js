@@ -36,7 +36,7 @@ const Home = () => {
           <ReactAudioPlayer
             autoPlay
             controls
-            src="http://159.69.211.51:8092/stream"
+            src="https://radio.segouin.me/stream"
             onCanPlay={() => setIsOnline(true)}
           />
         </p>
