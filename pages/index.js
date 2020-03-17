@@ -15,6 +15,7 @@ const Home = () => {
 
       <main>
         <p className="description">
+        {/*
           <svg className="logo" width="429px" height="368px" viewBox="0 0 429 368" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
             <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
               <g id="Artboard" transform="translate(-101.000000, -124.000000)" fill="#000000">
@@ -32,6 +33,8 @@ const Home = () => {
               </g>
             </g>
           </svg>
+          */}
+          <div style={{ width: '300px', maxWidth: '66vw', margin: '0 auto' }}><img width="100%" src="/logo.png" /></div>
           <div className="isonline">{isOnline ? <span style={{ color: '#4CAF50'}}>Online</span> : <span style={{ color: '#F44336' }}>Offline</span>}</div>
           <ReactAudioPlayer
             autoPlay
@@ -134,7 +137,7 @@ const Home = () => {
         .description .isonline {
           text-transform: uppercase;
           font-weight: bold;
-          margin-bottom: 2rem;
+          margin: 2rem 0;
         }
 
         code {
@@ -184,12 +187,6 @@ const Home = () => {
           margin: 0;
           font-size: 1.25rem;
           line-height: 1.5;
-        }
-
-        .logo {
-          width: 100%;
-          padding: 2rem;
-          box-sizing: border-box;
         }
 
         @media (max-width: 600px) {
