@@ -13,6 +13,15 @@ const Home = () => {
   const [artist, setArtist] = useState("")
   const [title, setTitle] = useState("")
   const [albumCover, setAlbumCover] = useState("")
+  const [listeners, setListeners] = useState(0)
+
+  async function refreshListeners() {
+    const response = await fetch('https://radio.segouin.me/status-json.xsl')
+    if (response.ok) {
+      const json = await response.json()
+      setListeners(json.icestats.source.listeners)
+    }
+  }
 
   async function refreshAccessToken() {
     try {
@@ -47,10 +56,12 @@ const Home = () => {
 
   useEffect(() => {
     refreshSongInfo()
+    refreshListeners()
   }, [])
 
   useInterval(() => {
     refreshSongInfo()
+    refreshListeners()
   }, 30000)
 
   return (
@@ -63,7 +74,7 @@ const Home = () => {
       <main>
         <div className="description">
           <div style={{ width: '300px', maxWidth: '66vw', margin: '0 auto' }}><img width="100%" src="/logo.png" /></div>
-          <div className="isonline">{isOnline ? <span style={{ color: '#4CAF50'}}>Online</span> : <span style={{ color: '#F44336' }}>Offline</span>}</div>
+          <div className="isonline">{isOnline ? <span style={{ color: '#4CAF50'}}>Online with {listeners} listeners</span> : <span style={{ color: '#F44336' }}>Offline</span>}</div>
           {isOnline && (
             <div className="nowplaying">
               <div style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>Now playing:</div>
