@@ -75,7 +75,7 @@ const Home = () => {
         <div className="description">
           <div style={{ width: '300px', maxWidth: '66vw', margin: '0 auto' }}><img width="100%" src="/logo.png" /></div>
           <div className="isonline">{isOnline ? <span style={{ color: '#4CAF50'}}>Online with {listeners} listeners</span> : <span style={{ color: '#F44336' }}>Offline</span>}</div>
-          {isOnline && (
+          {isOnline && albumCover !== "" && (
             <div className="nowplaying">
               <div style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>Now playing:</div>
               <div style={{ width: '120px', marginTop: '0.33rem' }}><img width="100%" src={albumCover} /></div>
