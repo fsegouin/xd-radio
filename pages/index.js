@@ -88,7 +88,7 @@ const Home = () => {
               <div style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>Now playing:</div>
               <div style={{ width: '120px', marginTop: '0.33rem' }}><img width="100%" src={albumCover} /></div>
               <div>{title}</div>
-              <div style={{ opacity: '0.6' }}>{artist}</div>
+              <div style={{ opacity: '0.6', fontSize: '0.88em' }}>{artist}</div>
             </div>
           )}
           <ReactAudioPlayer
