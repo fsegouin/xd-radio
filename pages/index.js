@@ -62,25 +62,6 @@ const Home = () => {
 
       <main>
         <div className="description">
-        {/*
-          <svg className="logo" width="429px" height="368px" viewBox="0 0 429 368" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
-            <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-              <g id="Artboard" transform="translate(-101.000000, -124.000000)" fill="#000000">
-                <g id="Group" transform="translate(100.000000, 124.000000)">
-                  <text id="RADIO" fontFamily="ARRIVALApercuPro-Bold, ARRIVAL Apercu Pro" fontSize="138" fontWeight="bold" letterSpacing="5.11111111">
-                    <tspan x="2.29222222" y="366">RADIO</tspan>
-                  </text>
-                  <text id="XD" fontFamily="ARRIVALApercuPro-Regular, ARRIVAL Apercu Pro" fontSize="154" fontWeight="normal" letterSpacing="5.7037037">
-                    <tspan x="244" y="158">XD</tspan>
-                  </text>
-                  <g id="asterisk" transform="translate(1.000000, 0.000000)">
-                    <polygon id="Path" points="80.0957727 0 80.0957727 78.458383 11.4042273 39.2291915 0 58.7708085 68.6873864 98 0 137.229191 11.4042273 156.770809 80.0957727 117.541617 80.0957727 196 102.908386 196 102.908386 117.541617 171.595773 156.770809 183 137.229191 114.312614 98 183 58.7708085 171.595773 39.2291915 102.908386 78.458383 102.908386 0"></polygon>
-                  </g>
-                </g>
-              </g>
-            </g>
-          </svg>
-          */}
           <div style={{ width: '300px', maxWidth: '66vw', margin: '0 auto' }}><img width="100%" src="/logo.png" /></div>
           <div className="isonline">{isOnline ? <span style={{ color: '#4CAF50'}}>Online</span> : <span style={{ color: '#F44336' }}>Offline</span>}</div>
           {isOnline && (
