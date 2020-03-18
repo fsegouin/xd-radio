@@ -1,10 +1,57 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 
 import ReactAudioPlayer from 'react-audio-player'
+import SpotifyWebApi from 'spotify-web-api-js'
+import useInterval from 'use-interval'
+
+const spotifyApi = new SpotifyWebApi()
 
 const Home = () => {
+
   const [isOnline, setIsOnline] = useState(false)
+  const [artist, setArtist] = useState("")
+  const [title, setTitle] = useState("")
+  const [albumCover, setAlbumCover] = useState("")
+
+  async function refreshAccessToken() {
+    try {
+      const response = await fetch('https://spotify.segouin.me/refresh')
+      if (response.ok) {
+        const json = await response.json()
+        spotifyApi.setAccessToken(json.token)
+        return true
+      } else {
+        return false
+      }
+    } catch (e) {
+        return false
+    }
+  }
+
+  async function refreshSongInfo() {
+    try {
+      const response = await spotifyApi.getMyCurrentPlayingTrack()
+      setArtist(response.item.artists[0].name)
+      setTitle(response.item.name)
+      setAlbumCover(response.item.album.images[0].url)
+    } catch (e) {
+      if (e.status === 401) {
+        const result = await refreshAccessToken()
+        if (result) {
+          refreshSongInfo()
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    refreshSongInfo()
+  }, [])
+
+  useInterval(() => {
+    refreshSongInfo()
+  }, 30000)
 
   return (
     <div className="container">
@@ -14,7 +61,7 @@ const Home = () => {
       </Head>
 
       <main>
-        <p className="description">
+        <div className="description">
         {/*
           <svg className="logo" width="429px" height="368px" viewBox="0 0 429 368" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
             <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -36,18 +83,26 @@ const Home = () => {
           */}
           <div style={{ width: '300px', maxWidth: '66vw', margin: '0 auto' }}><img width="100%" src="/logo.png" /></div>
           <div className="isonline">{isOnline ? <span style={{ color: '#4CAF50'}}>Online</span> : <span style={{ color: '#F44336' }}>Offline</span>}</div>
+          {isOnline && (
+            <div className="nowplaying">
+              <div style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>Now playing:</div>
+              <div style={{ width: '120px', marginTop: '0.33rem' }}><img width="100%" src={albumCover} /></div>
+              <div>{title}</div>
+              <div style={{ opacity: '0.6' }}>{artist}</div>
+            </div>
+          )}
           <ReactAudioPlayer
             autoPlay
             controls
-            src="https://radio.segouin.me/stream"
             onCanPlay={() => setIsOnline(true)}
+            src="https://radio.segouin.me/stream"
           />
-        </p>
+        </div>
       </main>
 
       <footer>
         <a
-          href="https://zeit.co?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://arrival.com"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -140,6 +195,14 @@ const Home = () => {
           margin: 2rem 0;
         }
 
+        .nowplaying {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          margin-bottom: 2rem;
+        }
+
         code {
           background: #fafafa;
           border-radius: 5px;
@@ -198,12 +261,13 @@ const Home = () => {
       `}</style>
 
       <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+
         html,
         body {
           padding: 0;
           margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-            Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+          font-family: 'Lato', -apple-system, sans-serif; 
         }
 
         * {
