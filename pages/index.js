@@ -14,12 +14,14 @@ const Home = () => {
   const [title, setTitle] = useState("")
   const [albumCover, setAlbumCover] = useState("")
   const [listeners, setListeners] = useState(0)
+  const [maxListeners, setMaxListeners] = useState(0)
 
   async function refreshListeners() {
     const response = await fetch('https://radio.segouin.me/status-json.xsl')
     if (response.ok) {
       const json = await response.json()
       setListeners(json.icestats.source.listeners)
+      setMaxListeners(json.icestats.source.listener_peak)
     }
   }
 
@@ -74,7 +76,16 @@ const Home = () => {
       <main>
         <div className="description">
           <div style={{ width: '300px', maxWidth: '66vw', margin: '0 auto' }}><img width="100%" src="/logo.png" /></div>
-          <div className="isonline">{isOnline ? <span style={{ color: '#4CAF50'}}>Online with {listeners} listeners</span> : <span style={{ color: '#F44336' }}>Offline</span>}</div>
+          <div className="isonline">
+            {isOnline ?
+              <div>
+                <div style={{ color: '#4CAF50'}}>Online with {listeners} listeners</div>
+                <div style={{ fontSize: '0.88em', color: 'rgba(0, 0, 0, 0.20)'}}>{maxListeners} daily listeners, yay!</div>
+              </div>
+                :
+              <div style={{ color: '#F44336' }}>Offline</div>
+            }
+          </div>
           {isOnline && albumCover !== "" && (
             <div className="nowplaying">
               <div style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>Now playing:</div>
