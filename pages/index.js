@@ -20,8 +20,13 @@ const Home = () => {
     const response = await fetch('https://radio.segouin.me/status-json.xsl')
     if (response.ok) {
       const json = await response.json()
-      setListeners(json.icestats.source.listeners)
-      setMaxListeners(json.icestats.source.listener_peak)
+      let radio = json.icestats.source
+      if (json.icestats.source.length > 0) {
+        radio = json.icestats.source[0]
+      }
+      setListeners(radio.listeners)
+      setMaxListeners(radio.listener_peak)
+      radio.title && setTitle(radio.title)
     }
   }
 
@@ -43,9 +48,11 @@ const Home = () => {
   async function refreshSongInfo() {
     try {
       const response = await spotifyApi.getMyCurrentPlayingTrack()
-      setArtist(response.item.artists[0].name)
-      setTitle(response.item.name)
-      setAlbumCover(response.item.album.images[0].url)
+      if (response !== undefined) {
+        setArtist(response.item.artists[0].name)
+        setTitle(response.item.name)
+        setAlbumCover(response.item.album.images[0].url)
+      }
     } catch (e) {
       if (e.status === 401) {
         const result = await refreshAccessToken()
@@ -86,10 +93,12 @@ const Home = () => {
               <div style={{ color: '#F44336' }}>Offline</div>
             }
           </div>
-          {isOnline && albumCover !== "" && (
+          {isOnline && title !== "" && (
             <div className="nowplaying">
               <div style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>Now playing:</div>
-              <div style={{ width: '120px', marginTop: '0.33rem' }}><img width="100%" src={albumCover} /></div>
+              {albumCover !== "" &&
+                <div style={{ width: '120px', marginTop: '0.33rem' }}><img width="100%" src={albumCover} /></div>
+              }
               <div>{title}</div>
               <div style={{ opacity: '0.6', fontSize: '0.88em' }}>{artist}</div>
             </div>
