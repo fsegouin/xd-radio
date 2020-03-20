@@ -12,6 +12,7 @@ const Home = () => {
   const [isOnline, setIsOnline] = useState(false)
   const [artist, setArtist] = useState("")
   const [title, setTitle] = useState("")
+  const [icecastTitle, setIcecastTitle] = useState("")
   const [albumCover, setAlbumCover] = useState("")
   const [listeners, setListeners] = useState(0)
   const [maxListeners, setMaxListeners] = useState(0)
@@ -21,12 +22,14 @@ const Home = () => {
     if (response.ok) {
       const json = await response.json()
       let radio = json.icestats.source
-      if (json.icestats.source.length > 0) {
-        radio = json.icestats.source[0]
+      if (radio !== undefined) {
+        if (json.icestats.source.length > 0) {
+          radio = json.icestats.source[0]
+        }
+        setListeners(radio.listeners)
+        setMaxListeners(radio.listener_peak)
+        radio.title && setIcecastTitle(radio.title)
       }
-      setListeners(radio.listeners)
-      setMaxListeners(radio.listener_peak)
-      radio.title && setTitle(radio.title)
     }
   }
 
@@ -93,14 +96,16 @@ const Home = () => {
               <div style={{ color: '#F44336' }}>Offline</div>
             }
           </div>
-          {isOnline && title !== "" && (
+          {isOnline && (
             <div className="nowplaying">
               <div style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>Now playing:</div>
-              {albumCover !== "" &&
+              {icecastTitle === "" && albumCover !== "" &&
                 <div style={{ width: '120px', marginTop: '0.33rem' }}><img width="100%" src={albumCover} /></div>
               }
-              <div>{title}</div>
-              <div style={{ opacity: '0.6', fontSize: '0.88em' }}>{artist}</div>
+              <div>{icecastTitle !== "" ? icecastTitle : title}</div>
+              {icecastTitle === "" && artist !== "" &&
+                <div style={{ opacity: '0.6', fontSize: '0.88em' }}>{artist}</div>
+              }
             </div>
           )}
           <ReactAudioPlayer
