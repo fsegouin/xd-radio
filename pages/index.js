@@ -18,7 +18,7 @@ const Home = () => {
   const [maxListeners, setMaxListeners] = useState(0)
 
   async function refreshListeners() {
-    const response = await fetch('https://radio.segouin.me/status-json.xsl')
+    const response = await fetch('https://radio.segouin.xyz/status-json.xsl')
     if (response.ok) {
       const json = await response.json()
       let radio = json.icestats.source
@@ -35,7 +35,7 @@ const Home = () => {
 
   async function refreshAccessToken() {
     try {
-      const response = await fetch('https://spotify.segouin.me/refresh')
+      const response = await fetch('https://spotify.segouin.xyz/refresh')
       if (response.ok) {
         const json = await response.json()
         spotifyApi.setAccessToken(json.token)
@@ -112,7 +112,7 @@ const Home = () => {
             autoPlay
             controls
             onCanPlay={() => setIsOnline(true)}
-            src="https://radio.segouin.me/stream"
+            src="https://radio.segouin.xyz/stream"
           />
         </div>
       </main>
