@@ -85,7 +85,7 @@ const Home = () => {
 
       <main>
         <div className="description">
-          <div style={{ width: '300px', maxWidth: '66vw', margin: '0 auto' }}><img width="100%" src="/logo.png" /></div>
+          <div style={{ width: '300px', maxWidth: '66vw', margin: '0 auto' }}><img width="100%" src="/logo.svg" /></div>
           <div className="isonline">
             {isOnline ?
               <div>
