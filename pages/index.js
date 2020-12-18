@@ -16,6 +16,7 @@ const Home = () => {
   const [albumCover, setAlbumCover] = useState("")
   const [listeners, setListeners] = useState(0)
   const [maxListeners, setMaxListeners] = useState(0)
+  const [volume, setVolume] = useState(1.0)
 
   async function refreshListeners() {
     const response = await fetch('https://radio.segouin.xyz/status-json.xsl')
@@ -111,7 +112,9 @@ const Home = () => {
           <ReactAudioPlayer
             autoPlay
             controls
-            onCanPlay={() => setIsOnline(true)}
+			volume={volume}
+			onCanPlay={() => setIsOnline(true)}
+			onVolumeChanged={e => setVolume(e.target.volume)}
             src="https://radio.segouin.xyz/stream"
           />
         </div>
