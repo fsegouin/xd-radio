@@ -89,15 +89,12 @@ const Home = () => {
           <div style={{ width: '300px', maxWidth: '66vw', margin: '0 auto' }}><img width="100%" src="/logo.svg" /></div>
           <div className="isonline">
             {isOnline ?
-              <div>
-                <div style={{ color: '#4CAF50'}}>Online with {listeners} listeners</div>
-                <div style={{ fontSize: '0.88em', color: 'rgba(0, 0, 0, 0.20)'}}>{maxListeners} daily listeners, yay!</div>
-              </div>
-                :
+              <div style={{ color: '#4CAF50'}}>Online</div>
+              :
               <div style={{ color: '#F44336' }}>Offline</div>
             }
           </div>
-          {isOnline && (
+          {/* isOnline && (
             <div className="nowplaying">
               <div style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>Now playing:</div>
               {icecastTitle === "" && albumCover !== "" &&
@@ -108,14 +105,14 @@ const Home = () => {
                 <div style={{ opacity: '0.6', fontSize: '0.88em' }}>{artist}</div>
               }
             </div>
-          )}
+          ) */}
           <ReactAudioPlayer
             autoPlay
             controls
 			volume={volume}
 			onCanPlay={() => setIsOnline(true)}
 			onVolumeChanged={e => setVolume(e.target.volume)}
-            src="https://radio.segouin.xyz/stream"
+            src="https://s2.radio.co/sc7bb7dbda/listen"
           />
         </div>
       </main>
